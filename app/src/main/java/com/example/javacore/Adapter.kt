@@ -33,7 +33,7 @@ class Adapter(var context:Context, var students: MutableList<Student>) : BaseAda
         var student:Student = getItem(p0) as Student
         viewHolder.tvName.text = student.name
         viewHolder.tvPhoneNumber.text = student.phoneNumber
-        viewHolder.tv.text = student.level
+        viewHolder.tv.text = student.education
         return view!!
     }
 

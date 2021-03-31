@@ -1,92 +1,151 @@
 package com.example.javacore
 
 import android.os.Bundle
+import android.view.Display
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
+    lateinit var adapterStudent:Adapter
+    var students:MutableList<Student> = mutableListOf()
+    var listToSort:MutableList<Student> = mutableListOf()
+    var check:Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var check:Boolean = true
-        var students:MutableList<Student> = mutableListOf()
         students.add(Student("Hà Văn Hoàng",1998,"0399408879","CNTT","Đại học"))
-        students.add(Student("Nguyễn Thái Dương",2000,"1234567891","CNTT","Đại học"))
         students.add(Student("Bùi Văn Quang",1999,"9876543219","CNTT","Cao Đẳng"))
         students.add(Student("Phạm Minh Hiếu",1999,"5469871233","CNTT","Đại học"))
-        listView.adapter = Adapter(this@MainActivity,students)
-        btnAdd.setOnClickListener {
-            var phoneNumber:String = phoneNumber.text.toString()
-            var level:String
-            if(university.isChecked){
-                level = "Đại học"
+        students.add(Student("Bùi Xuân Trường",2000,"54615487","CNTT","Cao Đẳng"))
+        adapterStudent = Adapter(this@MainActivity,students)
+        lv_Student.setOnItemClickListener { adapterView, view, i, l ->
+            ed_Major.setText(students[i].major)
+            ed_Name.setText(students[i].name)
+            ed_PhoneNumber.setText(students[i].phoneNumber)
+            ed_YearOfBirth.setText(students[i].yearOfBirth.toString())
+
+            if(students[i].education.equals("Cao Đẳng")){
+                rb_College.isChecked = true
             }else{
-                level = "Cao Đẳng"
+                rb_University.isChecked = true
             }
-            for( i in 0 until students.size){
-                if(phoneNumber.equals(students.get(i).phoneNumber)){
-                    check = false
-                }
-            }
-            if(check){
-                var date:Int = dateOfBirth.text.toString().toInt()
-                students.add(Student(name.text.toString(),date,phoneNumber,major.text.toString(),level))
-                listView.adapter = Adapter(this@MainActivity,students)
-            }
-            check = true
         }
-        btnUpdate.setOnClickListener {
-            var phoneNumber:String = phoneNumber.text.toString()
+        lv_Student.apply {
+            adapter = adapterStudent
+        }
+        btn_Add.setOnClickListener {
+            var education:String
+            if(rb_University.isChecked){
+                education = "Đại học"
+            }else {
+                education = "Cao Đẳng"
+            }
+            var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
+            AddStudent(student)
+            listToSort = students
+            Display(students)
+        }
+        btn_Update.setOnClickListener {
+            var phoneNumber:String = ed_PhoneNumber.text.toString()
             if(!phoneNumber.isEmpty()){
-                var level:String
-                if(university.isChecked){
-                    level = "Đại học"
+
+                var education:String
+                if(rb_University.isChecked){
+                    education = "Đại học"
                 }else {
-                    level = "Cao Đẳng"
+                    education = "Cao Đẳng"
                 }
-                for(i in 0 until students.size){
-                    if(phoneNumber.equals(students.get(i).phoneNumber)){
-                        students.get(i).dateOfBirth =dateOfBirth.text.toString().toInt()
-                        students.get(i).level = level
-                        students.get(i).major = major.text.toString()
-                        students.get(i).name = name.text.toString()
-                    }
-                }
-                listView.adapter = Adapter(this@MainActivity,students)
+                var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
+                UpdateStudent(student)
+                listToSort = students
+                Display(students)
             }else{
                 Toast.makeText(this@MainActivity,"Chưa nhập SDT",Toast.LENGTH_LONG).show()
             }
         }
-        btnSortByName.setOnClickListener {
-
-            var sortByName:List<Student> = students.sortedBy { it.name.substringAfterLast(" ") }
-            listView.adapter = Adapter(this@MainActivity, sortByName as MutableList<Student>)
+        btn_Remove.setOnClickListener {
+            var phoneNumber:String = ed_PhoneNumber.text.toString()
+            DeleteStudent(phoneNumber)
+            listToSort = students
+            Display(students)
         }
-        btnFilterCollege.setOnClickListener {
-            var filterColllege:List<Student> = students.filter {
-                it.level.equals("Cao Đẳng")
+        btn_SortByName.setOnClickListener {
+            SortByName()
+        }
+        btn_FilterCollege.setOnClickListener {
+            var listStudent = Filter(students,"Cao Đẳng")
+            listToSort = listStudent
+            Display(listStudent)
+        }
+        btn_FilterUniversity.setOnClickListener {
+            var listStudent = Filter(students,"Đại học")
+            listToSort = listStudent
+            Display(listStudent)
+        }
+        btn_Search.setOnClickListener {
+            var search:String = ed_Search.text.toString().toLowerCase().trim()
+            var tableStudent:MutableList<Student> = Search(search)
+            listToSort = tableStudent
+            Display(tableStudent)
+        }
+        btn_Display.setOnClickListener {
+            Display(students)
+        }
+    }
+    fun AddStudent(student: Student){
+        for( i in 0 until students.size){
+            if(student.phoneNumber.equals(students.get(i).phoneNumber)){
+                check = false
             }
-            listView.adapter = Adapter(this@MainActivity, filterColllege as MutableList<Student>)
         }
-        btnFilterUniversity.setOnClickListener {
-            var filterUniver:List<Student> = students.filter {
-                it.level.equals("Đại học")
+        if(check){
+            students.add(student)
+        }
+        check = true
+    }
+    fun UpdateStudent(student: Student){
+        for(i in 0 until students.size){
+            if(student.phoneNumber.equals(students.get(i).phoneNumber)){
+                students.get(i).yearOfBirth =student.yearOfBirth
+                students.get(i).education = student.education
+                students.get(i).major = student.major
+                students.get(i).name = student.name
             }
-            listView.adapter = Adapter(this@MainActivity, filterUniver as MutableList<Student>)
         }
-        btnSearch.setOnClickListener {
-            var search:String = search.text.toString().toLowerCase().trim()
-            var tableStudent: MutableList<Student> = mutableListOf()
-            for(i in 0 until  students.size){
-                if(students[i].level.toLowerCase().indexOf(search) != -1 || students[i].dateOfBirth.toString().indexOf(search) != -1
-                    || students[i].name.toLowerCase().indexOf(search) != -1 || students[i].major.toLowerCase().indexOf(search) != -1 ||
-                        students[i].phoneNumber.indexOf(search) != -1){
-                    tableStudent.add(students[i])
-                }
+    }
+    fun DeleteStudent(sdt: String){
+        for(i in 0 until students.size){
+            if(students[i].phoneNumber.equals(sdt)){
+                students.removeAt(i)
+                break
             }
-            listView.adapter = Adapter(this@MainActivity, tableStudent)
         }
+    }
+    fun SortByName() {
+        var sortByName:List<Student> = listToSort.sortedBy { it.name.substringAfterLast(" ") }
+        listToSort = sortByName as MutableList<Student>
+        Display(listToSort)
+    }
+    fun Filter(students: MutableList<Student>,education: String): MutableList<Student> {
+        var filterColllege:List<Student> = students.filter {
+            it.education.equals(education)
+        }
+        return filterColllege as MutableList<Student>
+    }
+    fun Search(strSearch: String): MutableList<Student> {
+        var tableStudent: MutableList<Student> = mutableListOf()
+        for(i in 0 until  students.size){
+            if(students[i].education.toLowerCase().indexOf(strSearch) != -1 || students[i].yearOfBirth.toString().indexOf(strSearch) != -1
+                || students[i].name.toLowerCase().indexOf(strSearch) != -1 || students[i].major.toLowerCase().indexOf(strSearch) != -1 ||
+                students[i].phoneNumber.indexOf(strSearch) != -1){
+                tableStudent.add(students[i])
+            }
+        }
+        return tableStudent
+    }
+    fun Display(students:MutableList<Student>){
+        lv_Student.adapter = Adapter(this@MainActivity, students)
     }
 }

@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <EditText
-                android:id="@+id/search"
+                android:id="@+id/ed_Search"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="Tìm kiếm"
@@ -19,113 +19,121 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="center_horizontal"/>
             <EditText
-                android:id="@+id/name"
+                android:id="@+id/ed_Name"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="Tên"
-                app:layout_constraintTop_toBottomOf="@+id/search"
-                app:layout_constraintLeft_toLeftOf="@+id/search"
+                app:layout_constraintTop_toBottomOf="@+id/ed_Search"
+                app:layout_constraintLeft_toLeftOf="@+id/ed_Search"
                 android:gravity="center_horizontal"/>
             <EditText
-                android:id="@+id/dateOfBirth"
+                android:id="@+id/ed_YearOfBirth"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="Năm sinh"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                app:layout_constraintLeft_toLeftOf="@+id/name"
+                app:layout_constraintTop_toBottomOf="@+id/ed_Name"
+                app:layout_constraintLeft_toLeftOf="@+id/ed_Name"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal" />
             <EditText
-                android:id="@+id/phoneNumber"
+                android:id="@+id/ed_PhoneNumber"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="Số điện thoại"
-                app:layout_constraintTop_toBottomOf="@+id/dateOfBirth"
-                app:layout_constraintLeft_toLeftOf="@+id/dateOfBirth"
+                app:layout_constraintTop_toBottomOf="@+id/ed_YearOfBirth"
+                app:layout_constraintLeft_toLeftOf="@+id/ed_YearOfBirth"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal" />
             <EditText
-                android:id="@+id/major"
+                android:id="@+id/ed_Major"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="Chuyên ngành"
-                app:layout_constraintTop_toBottomOf="@+id/phoneNumber"
-                app:layout_constraintLeft_toLeftOf="@+id/phoneNumber"
+                app:layout_constraintTop_toBottomOf="@+id/ed_PhoneNumber"
+                app:layout_constraintLeft_toLeftOf="@+id/ed_PhoneNumber"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal" />
             <RadioGroup
-                android:id="@+id/radio"
+                android:id="@+id/rg_Education"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/major"
-                app:layout_constraintLeft_toLeftOf="@+id/major">
+                app:layout_constraintTop_toBottomOf="@+id/ed_Major"
+                app:layout_constraintLeft_toLeftOf="@+id/ed_Major">
                 <RadioButton
-                    android:id="@+id/university"
+                    android:id="@+id/rb_University"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hệ Đại Học"
                     android:checked="true"/>
                 <RadioButton
-                    android:id="@+id/college"
+                    android:id="@+id/rb_College"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hệ Cao Đẳng"/>
             </RadioGroup>
+
             <Button
-                android:id="@+id/btnAdd"
+                android:id="@+id/btn_Add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thêm"
-                app:layout_constraintLeft_toLeftOf="@+id/radio"
-                app:layout_constraintTop_toBottomOf="@+id/radio"/>
+                app:layout_constraintLeft_toLeftOf="@+id/rg_Education"
+                app:layout_constraintTop_toBottomOf="@+id/rg_Education"/>
             <Button
-                android:id="@+id/btnUpdate"
+                android:id="@+id/btn_Update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sửa"
-                app:layout_constraintLeft_toRightOf="@+id/btnAdd"
-                app:layout_constraintTop_toBottomOf="@+id/radio" />
+                app:layout_constraintLeft_toRightOf="@+id/btn_Add"
+                app:layout_constraintTop_toBottomOf="@+id/rg_Education" />
             <Button
-                android:id="@+id/btnRemove"
+                android:id="@+id/btn_Remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sửa"
-                app:layout_constraintLeft_toRightOf="@+id/btnUpdate"
-                app:layout_constraintTop_toBottomOf="@+id/radio" />
+                android:text="Xóa"
+                app:layout_constraintLeft_toRightOf="@+id/btn_Update"
+                app:layout_constraintTop_toBottomOf="@+id/rg_Education" />
             <Button
-                android:id="@+id/btnSearch"
+                android:id="@+id/btn_Search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tìm kiếm"
-                app:layout_constraintLeft_toRightOf="@+id/btnRemove"
-                app:layout_constraintTop_toBottomOf="@+id/radio"/>
+                app:layout_constraintLeft_toRightOf="@+id/btn_Remove"
+                app:layout_constraintTop_toBottomOf="@+id/rg_Education"/>
             <Button
-                android:id="@+id/btnSortByName"
+                android:id="@+id/btn_SortByName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sắp xếp theo tên"
-                app:layout_constraintLeft_toLeftOf="@+id/btnAdd"
-                app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
+                app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
+                app:layout_constraintTop_toBottomOf="@+id/btn_Add" />
             <Button
-                android:id="@+id/btnFilterUniversity"
+                android:id="@+id/btn_FilterUniversity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@+id/btnSortByName"
-                app:layout_constraintTop_toBottomOf="@+id/btnAdd"
+                app:layout_constraintLeft_toRightOf="@+id/btn_SortByName"
+                app:layout_constraintTop_toBottomOf="@+id/btn_Add"
                 android:text="Lọc theo hệ Đại học"/>
             <Button
-                android:id="@+id/btnFilterCollege"
+                android:id="@+id/btn_FilterCollege"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/btnAdd"
-                app:layout_constraintTop_toBottomOf="@+id/btnSortByName"
+                app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
+                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
                 android:text="Lọc theo hệ Cao đẳng"/>
+            <Button
+                android:id="@+id/btn_Display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/btn_FilterCollege"
+                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
+                android:text="Hiển thị"/>
             <ListView
-                android:id="@+id/listView"
+                android:id="@+id/lv_Student"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/btnSortByName"
-                app:layout_constraintTop_toBottomOf="@+id/btnFilterCollege"/>
+                app:layout_constraintLeft_toLeftOf="@+id/btn_SortByName"
+                app:layout_constraintTop_toBottomOf="@+id/btn_FilterCollege"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
