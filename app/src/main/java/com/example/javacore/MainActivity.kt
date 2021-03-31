@@ -108,10 +108,7 @@ class MainActivity : AppCompatActivity() {
     fun UpdateStudent(student: Student){
         for(i in 0 until students.size){
             if(student.phoneNumber.equals(students.get(i).phoneNumber)){
-                students.get(i).yearOfBirth =student.yearOfBirth
-                students.get(i).education = student.education
-                students.get(i).major = student.major
-                students.get(i).name = student.name
+                students.set(i,student)
             }
         }
     }
