@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -107,33 +109,34 @@
                 android:text="Sắp xếp theo tên"
                 app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
                 app:layout_constraintTop_toBottomOf="@+id/btn_Add" />
+
             <Button
-                android:id="@+id/btn_FilterUniversity"
+                android:id="@+id/btn_Display"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@+id/btn_SortByName"
                 app:layout_constraintTop_toBottomOf="@+id/btn_Add"
+                android:text="Hiển thị"/>
+            <Button
+                android:id="@+id/btn_FilterUniversity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
+                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
                 android:text="Lọc theo hệ Đại học"/>
             <Button
                 android:id="@+id/btn_FilterCollege"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
+                app:layout_constraintLeft_toRightOf="@+id/btn_FilterUniversity"
                 app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
-                android:text="Lọc theo hệ Cao đẳng"/>
-            <Button
-                android:id="@+id/btn_Display"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@+id/btn_FilterCollege"
-                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
-                android:text="Hiển thị"/>
+                android:text="Lọc theo hệ Cao Đẳng"/>
             <ListView
                 android:id="@+id/lv_Student"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/btn_SortByName"
+                android:layout_height="260dp"
+                app:layout_constraintLeft_toLeftOf="@+id/btn_FilterCollege"
                 app:layout_constraintTop_toBottomOf="@+id/btn_FilterCollege"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </ScrollView>
 </RelativeLayout>

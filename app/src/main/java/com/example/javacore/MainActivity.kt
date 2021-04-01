@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity() {
             Display(tableStudent)
         }
         btn_Display.setOnClickListener {
+            listToSort = students
             Display(students)
         }
     }
