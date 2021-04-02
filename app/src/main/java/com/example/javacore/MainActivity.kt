@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             var phoneNumber:String = ed_PhoneNumber.text.toString()
             DeleteStudent(phoneNumber)
             listToSort = students
-            
+
         }
         btn_SortByName.setOnClickListener {
             SortByName()
@@ -120,6 +120,8 @@ class MainActivity : AppCompatActivity() {
         }
         if(check){
             students.add(student)
+        }else{
+            Toast.makeText(this@MainActivity,"Số điện thoại đã tồn tại",Toast.LENGTH_LONG).show()
         }
         check = true
     }
