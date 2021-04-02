@@ -2,6 +2,7 @@ package com.example.javacore
 
 import android.os.Bundle
 import android.view.Display
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -84,12 +85,20 @@ class MainActivity : AppCompatActivity() {
             listToSort = listStudent
             Display(listStudent)
         }
-        btn_Search.setOnClickListener {
-            var search:String = ed_Search.text.toString().toLowerCase().trim()
-            var tableStudent:MutableList<Student> = Search(search)
-            listToSort = tableStudent
-            Display(tableStudent)
-        }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                val tableStudent:MutableList<Student> = Search(p0)
+                listToSort = tableStudent
+                Display(tableStudent)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+
+        })
+
         btn_Display.setOnClickListener {
             listToSort = students
             Display(students)
@@ -132,12 +141,13 @@ class MainActivity : AppCompatActivity() {
         }
         return filterColllege as MutableList<Student>
     }
-    fun Search(strSearch: String): MutableList<Student> {
+    fun Search(strSearch: String?): MutableList<Student> {
+        val str = strSearch.toString().trim()
         var tableStudent: MutableList<Student> = mutableListOf()
         for(i in 0 until  students.size){
-            if(students[i].education.toLowerCase().indexOf(strSearch) != -1 || students[i].yearOfBirth.toString().indexOf(strSearch) != -1
-                || students[i].name.toLowerCase().indexOf(strSearch) != -1 || students[i].major.toLowerCase().indexOf(strSearch) != -1 ||
-                students[i].phoneNumber.indexOf(strSearch) != -1){
+            if(students[i].education.toLowerCase().indexOf(str) != -1 || students[i].yearOfBirth.toString().indexOf(str) != -1
+                || students[i].name.toLowerCase().indexOf(str) != -1 || students[i].major.toLowerCase().indexOf(str) != -1 ||
+                students[i].phoneNumber.indexOf(str) != -1){
                 tableStudent.add(students[i])
             }
         }
