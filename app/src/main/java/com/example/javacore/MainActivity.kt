@@ -45,10 +45,21 @@ class MainActivity : AppCompatActivity() {
             }else {
                 education = "Cao Đẳng"
             }
-            var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
-            AddStudent(student)
-            listToSort = students
-            Display(students)
+            if(ed_Name.text.isEmpty() || ed_Major.text.isEmpty() || ed_PhoneNumber.text.isEmpty()
+                || ed_YearOfBirth.text.isEmpty()){
+                Toast.makeText(this@MainActivity,"Không được để trống bất kì trường nào",Toast.LENGTH_LONG).show()
+            }else if(ed_YearOfBirth.text.length != 4){
+                Toast.makeText(this@MainActivity,"Năm sinh phải có 4 chữ số",Toast.LENGTH_LONG).show()
+            }else if(ed_PhoneNumber.text.length !=10 && ed_PhoneNumber.text.substring(0,1).equals("0")){
+                Toast.makeText(this@MainActivity,"Số điện thoại có 10 chữ số và bắt đầu bằng chữ số 0",
+                    Toast.LENGTH_LONG).show()
+            }else{
+                var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
+                AddStudent(student)
+                listToSort = students
+                Display(students)
+            }
+
         }
         btn_Update.setOnClickListener {
             var phoneNumber:String = ed_PhoneNumber.text.toString()
@@ -60,10 +71,22 @@ class MainActivity : AppCompatActivity() {
                 }else {
                     education = "Cao Đẳng"
                 }
-                var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
-                UpdateStudent(student)
-                listToSort = students
-                Display(students)
+                if(ed_Name.text.isEmpty() || ed_Major.text.isEmpty() || ed_PhoneNumber.text.isEmpty()
+                    || ed_YearOfBirth.text.isEmpty()){
+                    Toast.makeText(this@MainActivity,"Không được để trống bất kì trường nào",Toast.LENGTH_LONG).show()
+                }else if(ed_YearOfBirth.text.length != 4){
+                    Toast.makeText(this@MainActivity,"Năm sinh phải có 4 chữ số",Toast.LENGTH_LONG).show()
+                }else if(ed_PhoneNumber.text.length !=10 && ed_PhoneNumber.text.substring(0,1).equals("0")){
+                    Toast.makeText(this@MainActivity,"Số điện thoại có 10 chữ số và bắt đầu bằng chữ số 0",
+                        Toast.LENGTH_LONG).show()
+                } else{
+                    var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),
+                        ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
+                    UpdateStudent(student)
+                    listToSort = students
+                    Display(students)
+                }
+
             }else{
                 Toast.makeText(this@MainActivity,"Chưa nhập SDT",Toast.LENGTH_LONG).show()
             }
