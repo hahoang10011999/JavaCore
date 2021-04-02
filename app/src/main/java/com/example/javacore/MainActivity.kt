@@ -1,12 +1,13 @@
 package com.example.javacore
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
-import android.view.Display
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var adapterStudent:Adapter
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         students.add(Student("Bùi Văn Quang",1999,"9876543219","CNTT","Cao Đẳng"))
         students.add(Student("Phạm Minh Hiếu",1999,"5469871233","CNTT","Đại học"))
         students.add(Student("Bùi Xuân Trường",2000,"54615487","CNTT","Cao Đẳng"))
+        listToSort = students
         adapterStudent = Adapter(this@MainActivity,students)
         lv_Student.setOnItemClickListener { adapterView, view, i, l ->
             ed_Major.setText(students[i].major)
@@ -70,10 +72,16 @@ class MainActivity : AppCompatActivity() {
             var phoneNumber:String = ed_PhoneNumber.text.toString()
             DeleteStudent(phoneNumber)
             listToSort = students
-            Display(students)
+            
         }
         btn_SortByName.setOnClickListener {
             SortByName()
+        }
+        btn_SortByPhoneNumber.setOnClickListener {
+            SortByPhoneNumber()
+        }
+        btn_SortByYearOfBirth.setOnClickListener {
+            SortByYearOfBirth()
         }
         btn_FilterCollege.setOnClickListener {
             var listStudent = Filter(students,"Cao Đẳng")
@@ -87,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
+
                 val tableStudent:MutableList<Student> = Search(p0)
                 listToSort = tableStudent
                 Display(tableStudent)
@@ -98,7 +107,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
         btn_Display.setOnClickListener {
             listToSort = students
             Display(students)
@@ -123,16 +131,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun DeleteStudent(sdt: String){
-        for(i in 0 until students.size){
-            if(students[i].phoneNumber.equals(sdt)){
-                students.removeAt(i)
-                break
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Thông báo!!!")
+        builder.setMessage("Xác nhận xóa??")
+        builder.setPositiveButton("Xóa",{dialogInterface: DialogInterface?, i: Int ->
+            for(i in 0 until students.size){
+                if(students[i].phoneNumber.equals(sdt)){
+                    students.removeAt(i)
+                    break
+                }
             }
-        }
+            Display(students)
+        })
+        builder.setNegativeButton("hủy",{dialogInterface: DialogInterface?, i: Int ->
+
+        })
+        builder.show()
     }
     fun SortByName() {
         var sortByName:List<Student> = listToSort.sortedBy { it.name.substringAfterLast(" ") }
         listToSort = sortByName as MutableList<Student>
+        Display(listToSort)
+    }
+    fun SortByPhoneNumber(){
+        var sortByPhoneNumber:List<Student> = listToSort.sortedBy { it.phoneNumber }
+        listToSort = sortByPhoneNumber as MutableList<Student>
+        Display(listToSort)
+    }
+    fun SortByYearOfBirth(){
+        var sortByPhoneNumber:List<Student> = listToSort.sortedBy { it.yearOfBirth }
+        listToSort = sortByPhoneNumber as MutableList<Student>
         Display(listToSort)
     }
     fun Filter(students: MutableList<Student>,education: String): MutableList<Student> {
@@ -142,12 +170,12 @@ class MainActivity : AppCompatActivity() {
         return filterColllege as MutableList<Student>
     }
     fun Search(strSearch: String?): MutableList<Student> {
-        val str = strSearch.toString().trim()
+        val str = strSearch.toString().trim().toLowerCase()
         var tableStudent: MutableList<Student> = mutableListOf()
         for(i in 0 until  students.size){
-            if(students[i].education.toLowerCase().indexOf(str) != -1 || students[i].yearOfBirth.toString().indexOf(str) != -1
-                || students[i].name.toLowerCase().indexOf(str) != -1 || students[i].major.toLowerCase().indexOf(str) != -1 ||
-                students[i].phoneNumber.indexOf(str) != -1){
+            if(students[i].education.toLowerCase().contains(str) || students[i].yearOfBirth.toString().contains(str)
+                || students[i].name.toLowerCase().contains(str)  || students[i].major.toLowerCase().contains(str)  ||
+                students[i].phoneNumber.contains(str) ){
                 tableStudent.add(students[i])
             }
         }

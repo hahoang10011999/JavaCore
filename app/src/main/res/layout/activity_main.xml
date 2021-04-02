@@ -101,27 +101,40 @@
                 android:text="Sắp xếp theo tên"
                 app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
                 app:layout_constraintTop_toBottomOf="@+id/btn_Add" />
-
             <Button
-                android:id="@+id/btn_Display"
+                android:id="@+id/btn_SortByPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@+id/btn_SortByName"
                 app:layout_constraintTop_toBottomOf="@+id/btn_Add"
+                android:text="Sắp xếp theo SDT"/>
+            <Button
+                android:id="@+id/btn_SortByYearOfBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@+id/btn_SortByName"
+                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
+                android:text="Sắp xếp theo năm sinh"/>
+            <Button
+                android:id="@+id/btn_Display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/btn_SortByYearOfBirth"
+                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
                 android:text="Hiển thị"/>
             <Button
                 android:id="@+id/btn_FilterUniversity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
-                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
+                app:layout_constraintTop_toBottomOf="@+id/btn_SortByYearOfBirth"
                 android:text="Lọc theo hệ Đại học"/>
             <Button
                 android:id="@+id/btn_FilterCollege"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@+id/btn_FilterUniversity"
-                app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
+                app:layout_constraintTop_toBottomOf="@+id/btn_SortByYearOfBirth"
                 android:text="Lọc theo hệ Cao Đẳng"/>
             <ListView
                 android:id="@+id/lv_Student"
