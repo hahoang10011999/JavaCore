@@ -122,26 +122,29 @@
                 app:layout_constraintLeft_toRightOf="@+id/btn_SortByYearOfBirth"
                 app:layout_constraintTop_toBottomOf="@+id/btn_SortByName"
                 android:text="Hiển thị"/>
-            <Button
-                android:id="@+id/btn_FilterUniversity"
+            <RadioGroup
+                android:id="@+id/rg_Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/btn_Add"
                 app:layout_constraintTop_toBottomOf="@+id/btn_SortByYearOfBirth"
-                android:text="Lọc theo hệ Đại học"/>
-            <Button
-                android:id="@+id/btn_FilterCollege"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@+id/btn_FilterUniversity"
-                app:layout_constraintTop_toBottomOf="@+id/btn_SortByYearOfBirth"
-                android:text="Lọc theo hệ Cao Đẳng"/>
+                app:layout_constraintLeft_toLeftOf="@+id/ed_Major">
+                <RadioButton
+                    android:id="@+id/rb_FilterUniversity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lọc Hệ Đại Học" />
+                <RadioButton
+                    android:id="@+id/rb_FilterCollege"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lọc Hệ Cao Đẳng"/>
+            </RadioGroup>
             <ListView
                 android:id="@+id/lv_Student"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
-                app:layout_constraintLeft_toLeftOf="@+id/btn_FilterCollege"
-                app:layout_constraintTop_toBottomOf="@+id/btn_FilterCollege"/>
+                app:layout_constraintLeft_toLeftOf="@+id/rg_Filter"
+                app:layout_constraintTop_toBottomOf="@+id/rg_Filter"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </RelativeLayout>

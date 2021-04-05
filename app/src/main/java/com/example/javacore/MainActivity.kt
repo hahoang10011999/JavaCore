@@ -106,15 +106,11 @@ class MainActivity : AppCompatActivity() {
         btn_SortByYearOfBirth.setOnClickListener {
             SortByYearOfBirth()
         }
-        btn_FilterCollege.setOnClickListener {
-            var listStudent = Filter(students,"Cao Đẳng")
-            listToSort = listStudent
-            Display(listStudent)
-        }
-        btn_FilterUniversity.setOnClickListener {
-            var listStudent = Filter(students,"Đại học")
-            listToSort = listStudent
-            Display(listStudent)
+        rg_Filter.setOnCheckedChangeListener { radioGroup, i ->
+            when(i){
+                0 -> Filter(students,"Đại học")
+                1 -> Filter(students,"Cao Đẳng")
+            }
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -188,11 +184,12 @@ class MainActivity : AppCompatActivity() {
         listToSort = sortByPhoneNumber as MutableList<Student>
         Display(listToSort)
     }
-    fun Filter(students: MutableList<Student>,education: String): MutableList<Student> {
-        var filterColllege:List<Student> = students.filter {
+    fun Filter(students: MutableList<Student>,education: String) {
+        var filter:List<Student> = students.filter {
             it.education.equals(education)
         }
-        return filterColllege as MutableList<Student>
+        listToSort = filter as MutableList<Student>
+        Display(filter)
     }
     fun Search(strSearch: String?): MutableList<Student> {
         val str = strSearch.toString().trim().toLowerCase()
