@@ -108,8 +108,8 @@ class MainActivity : AppCompatActivity() {
         }
         rg_Filter.setOnCheckedChangeListener { radioGroup, i ->
             when(i){
-                0 -> Filter(students,"Đại học")
-                1 -> Filter(students,"Cao Đẳng")
+                2131165373 -> Filter(students,"Đại học")
+                2131165372 -> Filter(students,"Cao Đẳng")
             }
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
