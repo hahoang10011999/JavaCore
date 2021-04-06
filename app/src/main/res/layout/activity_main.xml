@@ -35,6 +35,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/ed_Name"
                 app:layout_constraintLeft_toLeftOf="@+id/ed_Name"
                 android:layout_marginTop="10dp"
+                android:inputType="number"
                 android:gravity="center_horizontal" />
             <EditText
                 android:id="@+id/ed_PhoneNumber"
@@ -139,8 +140,8 @@
                     android:layout_height="wrap_content"
                     android:text="Lọc Hệ Cao Đẳng"/>
             </RadioGroup>
-            <ListView
-                android:id="@+id/lv_Student"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_Student"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
                 app:layout_constraintLeft_toLeftOf="@+id/rg_Filter"

@@ -3,41 +3,32 @@ package com.example.javacore
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-    lateinit var adapterStudent:Adapter
+class MainActivity : AppCompatActivity(),IonClick {
+
     var students:MutableList<Student> = mutableListOf()
     var listToSort:MutableList<Student> = mutableListOf()
     var check:Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         students.add(Student("Hà Văn Hoàng",1998,"0399408879","CNTT","Đại học"))
-        students.add(Student("Bùi Văn Quang",1999,"9876543219","CNTT","Cao Đẳng"))
-        students.add(Student("Phạm Minh Hiếu",1999,"5469871233","CNTT","Đại học"))
-        students.add(Student("Bùi Xuân Trường",2000,"54615487","CNTT","Cao Đẳng"))
+        students.add(Student("Bùi Văn Quang",1999,"0123456789","CNTT","Cao Đẳng"))
+        students.add(Student("Phạm Minh Hiếu",1999,"0321654897","CNTT","Đại học"))
+        students.add(Student("Bùi Xuân Trường",2000,"0987654321","CNTT","Cao Đẳng"))
         listToSort = students
-        adapterStudent = Adapter(this@MainActivity,students)
-        lv_Student.setOnItemClickListener { adapterView, view, i, l ->
-            ed_Major.setText(students[i].major)
-            ed_Name.setText(students[i].name)
-            ed_PhoneNumber.setText(students[i].phoneNumber)
-            ed_YearOfBirth.setText(students[i].yearOfBirth.toString())
+        rv_Student.adapter = Adapter(students,this)
+        rv_Student.layoutManager = LinearLayoutManager(this)
 
-            if(students[i].education.equals("Cao Đẳng")){
-                rb_College.isChecked = true
-            }else{
-                rb_University.isChecked = true
-            }
-        }
-        lv_Student.apply {
-            adapter = adapterStudent
-        }
         btn_Add.setOnClickListener {
             var education:String
             if(rb_University.isChecked){
@@ -45,16 +36,17 @@ class MainActivity : AppCompatActivity() {
             }else {
                 education = "Cao Đẳng"
             }
-            if(ed_Name.text.isEmpty() || ed_Major.text.isEmpty() || ed_PhoneNumber.text.isEmpty()
-                || ed_YearOfBirth.text.isEmpty()){
+            if(ed_Name.text.toString().isEmpty() || ed_Major.text.toString().isEmpty() ||
+                ed_PhoneNumber.text.toString().isEmpty() || ed_YearOfBirth.text.isEmpty()){
                 Toast.makeText(this@MainActivity,"Không được để trống bất kì trường nào",Toast.LENGTH_LONG).show()
-            }else if(ed_YearOfBirth.text.length != 4){
+            }else if(ed_YearOfBirth.text.toString().length != 4){
                 Toast.makeText(this@MainActivity,"Năm sinh phải có 4 chữ số",Toast.LENGTH_LONG).show()
-            }else if(ed_PhoneNumber.text.length !=10 && ed_PhoneNumber.text.substring(0,1).equals("0")){
+            }else if(ed_PhoneNumber.text.toString().length !=10 || !ed_PhoneNumber.text.toString().substring(0,1).equals("0")){
                 Toast.makeText(this@MainActivity,"Số điện thoại có 10 chữ số và bắt đầu bằng chữ số 0",
                     Toast.LENGTH_LONG).show()
             }else{
-                var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
+                var student: Student = Student(ed_Name.text.toString(),ed_YearOfBirth.text.toString().toInt(),
+                    ed_PhoneNumber.text.toString(),ed_Major.text.toString(),education)
                 AddStudent(student)
                 listToSort = students
                 Display(students)
@@ -71,12 +63,13 @@ class MainActivity : AppCompatActivity() {
                 }else {
                     education = "Cao Đẳng"
                 }
-                if(ed_Name.text.isEmpty() || ed_Major.text.isEmpty() || ed_PhoneNumber.text.isEmpty()
+                if(ed_Name.text.toString().isEmpty() || ed_Major.text.toString().isEmpty() || ed_PhoneNumber.text.toString().isEmpty()
                     || ed_YearOfBirth.text.isEmpty()){
-                    Toast.makeText(this@MainActivity,"Không được để trống bất kì trường nào",Toast.LENGTH_LONG).show()
-                }else if(ed_YearOfBirth.text.length != 4){
+                    Toast.makeText(this@MainActivity,"Không được để trống bất kì trường nào",
+                        Toast.LENGTH_LONG).show()
+                }else if(ed_YearOfBirth.text.toString().length != 4){
                     Toast.makeText(this@MainActivity,"Năm sinh phải có 4 chữ số",Toast.LENGTH_LONG).show()
-                }else if(ed_PhoneNumber.text.length !=10 && ed_PhoneNumber.text.substring(0,1).equals("0")){
+                }else if(ed_PhoneNumber.text.toString().length !=10 || !ed_PhoneNumber.text.toString().substring(0,1).equals("0")){
                     Toast.makeText(this@MainActivity,"Số điện thoại có 10 chữ số và bắt đầu bằng chữ số 0",
                         Toast.LENGTH_LONG).show()
                 } else{
@@ -106,10 +99,11 @@ class MainActivity : AppCompatActivity() {
         btn_SortByYearOfBirth.setOnClickListener {
             SortByYearOfBirth()
         }
+
         rg_Filter.setOnCheckedChangeListener { radioGroup, i ->
             when(i){
-                2131165373 -> Filter(students,"Đại học")
-                2131165372 -> Filter(students,"Cao Đẳng")
+                R.id.rb_FilterUniversity -> Filter(students,"Đại học")
+                R.id.rb_FilterCollege -> Filter(students,"Cao Đẳng")
             }
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -139,6 +133,7 @@ class MainActivity : AppCompatActivity() {
         }
         if(check){
             students.add(student)
+
         }else{
             Toast.makeText(this@MainActivity,"Số điện thoại đã tồn tại",Toast.LENGTH_LONG).show()
         }
@@ -159,13 +154,17 @@ class MainActivity : AppCompatActivity() {
             for(i in 0 until students.size){
                 if(students[i].phoneNumber.equals(sdt)){
                     students.removeAt(i)
+                    check = false
                     break
                 }
             }
+            if(check){
+                Toast.makeText(this@MainActivity,"Không có sinh viên này trong danh sách",Toast.LENGTH_LONG).show()
+            }
             Display(students)
+            check = true
         })
         builder.setNegativeButton("hủy",{dialogInterface: DialogInterface?, i: Int ->
-
         })
         builder.show()
     }
@@ -189,7 +188,7 @@ class MainActivity : AppCompatActivity() {
             it.education.equals(education)
         }
         listToSort = filter as MutableList<Student>
-        Display(filter)
+        Display(listToSort)
     }
     fun Search(strSearch: String?): MutableList<Student> {
         val str = strSearch.toString().trim().toLowerCase()
@@ -204,6 +203,19 @@ class MainActivity : AppCompatActivity() {
         return tableStudent
     }
     fun Display(students:MutableList<Student>){
-        lv_Student.adapter = Adapter(this@MainActivity, students)
+        rv_Student.adapter = Adapter( students,this)
+    }
+
+    override fun ClickStudent(position: Int) {
+        ed_Major.setText(listToSort[position].major)
+        ed_Name.setText(listToSort[position].name)
+        ed_PhoneNumber.setText(listToSort[position].phoneNumber)
+        ed_YearOfBirth.setText(listToSort[position].yearOfBirth.toString())
+
+        if(listToSort[position].education.equals("Cao Đẳng")){
+            rb_College.isChecked = true
+        }else{
+            rb_University.isChecked = true
+        }
     }
 }
