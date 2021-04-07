@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.item_student.view.*
 
-class Adapter(val listStudent:MutableList<Student>,val listener : IonClick) : RecyclerView.Adapter<Adapter.ViewHolder>(){
+class Adapter(val listStudent:MutableList<Student>,val listener : IonClick) :
+    RecyclerView.Adapter<Adapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_student,parent,false)
-
+        val itemView = LayoutInflater.from(parent.context).
+        inflate(R.layout.item_student,parent,false)
         return ViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
