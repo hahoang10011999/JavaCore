@@ -136,7 +136,16 @@ class MainActivity : AppCompatActivity(), IonClick {
 
         btn_Remove.setOnClickListener {
             var phoneNumber: String = ed_PhoneNumber.text.toString()
-            DeleteStudent(phoneNumber)
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setTitle("Thông báo!!!")
+            builder.setMessage("Xác nhận xóa??")
+            builder.setPositiveButton("Xóa", { dialogInterface: DialogInterface?, i: Int ->
+                DeleteStudent(phoneNumber)
+            })
+            builder.setNegativeButton("hủy", { dialogInterface: DialogInterface?, i: Int ->
+            })
+            builder.show()
+
             listToSort = students
         }
 
@@ -202,30 +211,19 @@ class MainActivity : AppCompatActivity(), IonClick {
     }
 
     fun DeleteStudent(sdt: String) {
-        val builder = AlertDialog.Builder(this@MainActivity)
-        builder.setTitle("Thông báo!!!")
-        builder.setMessage("Xác nhận xóa??")
-        builder.setPositiveButton("Xóa", { dialogInterface: DialogInterface?, i: Int ->
-            for (i in 0 until students.size) {
-                if (students[i].phoneNumber.equals(sdt)) {
-                    students.removeAt(i)
-                    check = false
-                    break
-                }
-            }
-            if (check) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Không có sinh viên này trong danh sách",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            Display(students)
-            check = true
-        })
-        builder.setNegativeButton("hủy", { dialogInterface: DialogInterface?, i: Int ->
-        })
-        builder.show()
+        var st: Student? = students.find { it.phoneNumber.equals(sdt) }
+
+        students.remove(st)
+        if (st == null) {
+            Toast.makeText(
+                this@MainActivity,
+                "Không có sinh viên này trong danh sách",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        Display(students)
+
+
     }
 
     fun SortByName() {
